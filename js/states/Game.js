@@ -22,12 +22,29 @@ DunCrawl.GameState = {
         //tile groups
         this.backgroundTiles = this.add.group();
 
+        //map elements
+        this.mapElements = this.add.group();
+
         //board
         this.board = new DunCrawl.Board(this, {
             rows: this.ROWS,
             cols: this.COLS,
             tileSize: this.TILE_SIZE
         });
+
+        //hardcode and item
+        this.item = new DunCrawl.Item(this, {
+            row: 3,
+            col: 2,
+            asset: 'sword',
+            type: 'consumable',
+            health: 0,
+            attack: 10,
+            defense: 0,
+            gold: 1
+        });
+
+        this.mapElements.add(this.item);
     },
     gameOver: function() {
         this.game.state.start('Game');

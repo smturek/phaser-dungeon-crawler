@@ -11,6 +11,7 @@ DunCrawl.PreloadState = {
         this.load.image('darkTile', 'assets/images/darkTile.png');
         this.load.image('cherry', 'assets/images/potion.png');
         this.load.image('shield', 'assets/images/shield.png');
+        this.load.image('sword', 'assets/images/sword.png');
         this.load.image('chest', 'assets/images/chest-gold.png');
         this.load.image('heart', 'assets/images/heart.png');
         this.load.image('attack', 'assets/images/attack.png');
