@@ -17,7 +17,39 @@ DunCrawl.Board = function(state, data) {
             tile.row = i;
             tile.col = j;
 
+            tile.inputEnabled = true;
+            tile.events.onInputDown.add(function(tile) {
+                tile.alpha = 0.5;
+            }, this);
+
             this.state.backgroundTiles.add(tile);
         }
     }
+};
+
+//get surrounding tiles of a given tile
+DunCrawl.Board.prototype.getSurrounding = function(tile) {
+    var adjacentTiles = [];
+    var relativePositions = [
+        {r: 1, c: -1},
+        {r: 1, c: 0},
+        {r: 1, c: 1},
+        {r: 0, c: -1},
+        {r: 0, c: 1},
+        {r: -1, c: -1},
+        {r: -1, c: 0},
+        {r: -1, c: 1}
+    ];
+
+    var relRow, relCol;
+    relativePositions.forEach(function(relPos) {
+        relRow = tile.row + relPos.r;
+        relCol = tile.col + relPos.c;
+
+        if(relRow >= 0 && relRow < this.rows && relCol >= 0 && relCol < this.cols) {
+            adjacentTiles.push({row: relRow, col: relCol});
+        }
+    }, this);
+
+    return adjacentTiles;
 };
