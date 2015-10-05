@@ -58,5 +58,5 @@ DunCrawl.Board.prototype.getXYFromRowCol = function(cell) {
     return {
         x: cell.col * this.tileSize + this.tileSize/2,
         y: cell.row * this.tileSize + this.tileSize/2
-    }
+    };
 };

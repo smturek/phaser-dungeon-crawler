@@ -24,13 +24,16 @@ DunCrawl.Item.prototype.constructor = DunCrawl.Item;
 DunCrawl.Item.prototype.collect = function() {
 
     //consumable items
-    if(this.data.type = 'consumable') {
+    if(this.data.type == 'consumable') {
         this.state.playerStats.health += this.data.health;
         this.state.playerStats.attack += this.data.attack;
         this.state.playerStats.defense += this.data.defense;
         this.state.playerStats.gold += this.data.gold;
 
+        //refresh stats
+        this.state.refreshStats();
+
         //item is consumed
         this.kill();
     }
-}
+};
