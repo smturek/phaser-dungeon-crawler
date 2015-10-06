@@ -27,6 +27,9 @@ DunCrawl.PreloadState = {
         this.load.image('mummy', 'assets/images/mummyjewel.png');
         this.load.image('demon', 'assets/images/demon.png');
         this.load.image('orc', 'assets/images/orc.png');
+
+        //data file
+        this.load.text('gameBaseData', 'assets/data/gameBaseData.json');
     },
     create: function() {
         this.state.start('Game');

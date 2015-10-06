@@ -25,26 +25,19 @@ DunCrawl.GameState = {
         //map elements
         this.mapElements = this.add.group();
 
+        //load level data
+        this.levelData = JSON.parse(this.game.cache.getText('gameBaseData'));
+
         //board
         this.board = new DunCrawl.Board(this, {
             rows: this.ROWS,
             cols: this.COLS,
-            tileSize: this.TILE_SIZE
+            tileSize: this.TILE_SIZE,
+            levelData: this.levelData
         });
 
-        //hardcode and item
-        this.item = new DunCrawl.Item(this, {
-            row: 3,
-            col: 2,
-            asset: 'sword',
-            type: 'consumable',
-            health: 0,
-            attack: 10,
-            defense: 0,
-            gold: 1
-        });
-
-        this.mapElements.add(this.item);
+        //initiate level
+        this.board.initLevel();
 
         this.initGui();
     },
