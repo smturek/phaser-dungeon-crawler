@@ -109,6 +109,7 @@ DunCrawl.Board.prototype.initLevel = function() {
     //init enemies
 
     //init start, exit, key
+    this.initExit();
 };
 
 DunCrawl.Board.prototype.initItems= function() {
@@ -142,4 +143,36 @@ DunCrawl.Board.prototype.initItems= function() {
 
         i++;
     }
+};
+
+DunCrawl.Board.prototype.initExit = function() {
+    //starting point
+    var startCell = this.getFreeCell();
+    var start = new DunCrawl.Item(this.state, {
+        asset: 'start',
+        row: startCell.row,
+        col: startCell.col,
+        type: 'start'
+    });
+    this.mapElements.add(start);
+
+    //exit
+    var exitCell = this.getFreeCell();
+    var exit = new DunCrawl.Item(this.state, {
+        asset: 'exit',
+        row: exitCell.row,
+        col: exitCell.col,
+        type: 'exit'
+    });
+    this.mapElements.add(exit);
+
+    //door key
+    var keyCell = this.getFreeCell();
+    var key = new DunCrawl.Item(this.state, {
+        asset: 'key',
+        row: keyCell.row,
+        col: keyCell.col,
+        type: 'key'
+    });
+    this.mapElements.add(key);
 };
