@@ -107,6 +107,7 @@ DunCrawl.Board.prototype.initLevel = function() {
     this.initItems();
 
     //init enemies
+    this.initEnemies()
 
     //init start, exit, key
     this.initExit();
@@ -175,4 +176,39 @@ DunCrawl.Board.prototype.initExit = function() {
         type: 'key'
     });
     this.mapElements.add(key);
+};
+
+DunCrawl.Board.prototype.initEnemies= function() {
+    //number of enemies
+    var numEnemies = Math.round(this.numCells * this.coefs.enemyOccupation * this.randomBetween(1 - this.coefs.enemyVariation, 1 + this.coefs.enemyVariation));
+
+    //generate enemies
+    var i = 0;
+    var type, enemyData, newEnemy, cell;
+
+    while(i < numEnemies) {
+        //random enemy type
+        type = this.randomBetween(0, this.levelData.enemyTypes.length, true);
+
+        //grab enemy data - have to clone the data so that you don't change the original
+        enemyData = Object.create(this.levelData.enemyTypes[type]);
+        enemyData.board = this;
+
+        //update enemy according to current level
+        var coef = Math.pow(this.coefs.levelIncrement, this.state.currentLevel);
+        enemyData.health = Math.round(coef * enemyData.health);
+        enemyData.attack = Math.round(coef * enemyData.attack);
+        enemyData.defense = Math.round(coef * enemyData.defense);
+        enemyData.gold = Math.round(coef * enemyData.gold);
+
+        cell = this.getFreeCell();
+        enemyData.row = cell.row;
+        enemyData.col = cell.col;
+
+        //create the enemy and add it to the map
+        newEnemy = new DunCrawl.Enemy(this.state, enemyData);
+        this.mapElements.add(newEnemy);
+
+        i++;
+    }
 };
