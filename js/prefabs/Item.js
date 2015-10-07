@@ -14,6 +14,9 @@ DunCrawl.Item = function(state, data) {
 
     this.anchor.setTo(0.5);
 
+    //invisible by default
+    this.visible = false;
+
     this.inputEnabled = true;
     this.events.onInputDown.add(this.collect, this);
 };

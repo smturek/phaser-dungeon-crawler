@@ -11,6 +11,7 @@ DunCrawl.Board = function(state, data) {
     this.mapElements = state.mapElements;
     this.levelData = data.levelData;
     this.coefs = this.levelData.coefs;
+    this.fogOfWar = this.state.fogOfWar;
 
     var i, j, tile;
 
@@ -103,6 +104,9 @@ DunCrawl.Board.prototype.randomBetween = function(min, max, isInteger) {
 };
 
 DunCrawl.Board.prototype.initLevel = function() {
+    //initiate for of war
+    this.initFogofWar();
+
     //init items
     this.initItems();
 
@@ -211,4 +215,25 @@ DunCrawl.Board.prototype.initEnemies= function() {
 
         i++;
     }
+};
+
+DunCrawl.Board.prototype.initFogofWar = function() {
+    var i, j, tile;
+
+    for(i = 0; i < this.rows; i++) {
+        for(j = 0; j < this.cols; j++) {
+            tile = new Phaser.Sprite(this.game, j * this.tileSize, i * this.tileSize, 'darkTile');
+            tile.row = i;
+            tile.col = j;
+
+            tile.inputEnabled = true;
+            tile.events.onInputDown.add(function(tile) {
+
+            }, this);
+
+            this.fogOfWar.add(tile);
+        }
+    }
+
+    this.fogOfWar.setAll('alpha', 0.7);
 };

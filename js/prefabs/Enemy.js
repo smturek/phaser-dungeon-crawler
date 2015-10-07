@@ -15,6 +15,9 @@ DunCrawl.Enemy = function(state, data) {
 
     this.anchor.setTo(0.5);
 
+    //invisible by default
+    this.visible = false;
+
     //show enemy stats
     var x = 0;
     var y = -4;

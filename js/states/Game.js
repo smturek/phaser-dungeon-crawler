@@ -25,6 +25,9 @@ DunCrawl.GameState = {
         //map elements
         this.mapElements = this.add.group();
 
+        //fog of war
+        this.fogOfWar = this.add.group();
+
         //load level data
         this.levelData = JSON.parse(this.game.cache.getText('gameBaseData'));
 
