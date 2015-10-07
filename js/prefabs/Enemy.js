@@ -97,6 +97,9 @@ DunCrawl.Enemy.prototype.attack = function() {
             this.state.playerStats.gold += attacked.gold;
 
             this.kill();
+
+            //show map
+            this.board.clearFogOfWar(this, true);
         }
 
         if(attacker.health <= 0) {

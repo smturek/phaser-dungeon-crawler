@@ -36,6 +36,9 @@ DunCrawl.Item.prototype.collect = function() {
         //refresh stats
         this.state.refreshStats();
 
+        //show map
+        this.board.clearFogOfWar(this, true);
+
         //item is consumed
         this.kill();
     }
@@ -47,11 +50,17 @@ DunCrawl.Item.prototype.collect = function() {
         //refresh stats
         this.state.refreshStats();
 
+        //show map
+        this.board.clearFogOfWar(this, true);
+
         //item is consumed
         this.kill();
     }
 
     else if(this.data.type == 'exit') {
+        //show map
+        this.board.clearFogOfWar(this, true);
+
         //open if you have the key
         if(this.state.playerStats.hasKey) {
             this.state.playerStats.hasKey = false;

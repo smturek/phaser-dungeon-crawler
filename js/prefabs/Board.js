@@ -241,16 +241,36 @@ DunCrawl.Board.prototype.initFogofWar = function() {
 };
 
 DunCrawl.Board.prototype.clearFogOfWar = function(tile, considerEnemies) {
+    var darkTile, i, j;
+    var len = this.fogOfWar.length;
+    var lenMapElements = this.mapElements.length;
+
     //cells that will be revealed
     var tiles = this.getSurrounding(tile);
     tiles.push(tile);
 
     //consider enemies
+    if(considerEnemies) {
+        var hasMonster = false;
+        var lenTiles = tiles.length;
+        var enemy;
 
+        for(i = 0; i < lenTiles; i++) {
+            //search for monster in the tile
+            for(j = 0; j < lenMapElements; j++) {
+                enemy = this.mapElements.children[j];
 
-    var darkTile, i, j;
-    var len = this.fogOfWar.length;
-    var lenMapElements = this.mapElements.length;
+                if(enemy.alive && enemy.data.type == 'enemy' && enemy.visible && enemy.row == tiles[i].row && enemy.col == tiles[i].col) {
+                    hasMonster = true;
+                    break;
+                }
+            }
+            //if there was a monster
+            if(hasMonster) {
+                return;
+            }
+        }
+    }
 
     //find fog of war to kill
     tiles.forEach(function(currentTile) {
