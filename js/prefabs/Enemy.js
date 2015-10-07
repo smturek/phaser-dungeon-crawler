@@ -57,6 +57,9 @@ DunCrawl.Enemy = function(state, data) {
     this.addChild(this.defenseLabel);
 
     this.refreshStats();
+
+    this.inputEnabled = true;
+    this.events.onInputDown.add(this.attack, this);
 };
 
 DunCrawl.Enemy.prototype = Object.create(Phaser.Sprite.prototype);
@@ -66,4 +69,38 @@ DunCrawl.Enemy.prototype.refreshStats = function() {
     this.healthLabel.text = Math.ceil(this.data.health);
     this.attackLabel.text = Math.ceil(this.data.attack);
     this.defenseLabel.text = Math.ceil(this.data.defense);
+};
+
+DunCrawl.Enemy.prototype.attack = function() {
+    var attacker = this.state.playerStats;
+    var attacked = this.data;
+
+    //both units attack each other
+    var damageToAttacked = Math.max(0.5, attacker.attack * Math.random() - attacked.defense * Math.random());
+    var damageToAttacker = Math.max(0.5, attacked.attack * Math.random() - attacker.defense * Math.random());
+
+    attacked.health -= damageToAttacked;
+    attacker.health -= damageToAttacker;
+
+    var attackTween = this.game.add.tween(this);
+    attackTween.to({tint: 0xFF0000}, 300);
+    attackTween.onComplete.add(function() {
+        this.tint = 0xFFFFFF;
+
+        this.refreshStats();
+        this.state.refreshStats();
+
+        if(attacked.health <= 0) {
+            this.state.playerStats.gold += attacked.gold;
+
+            this.kill();
+        }
+
+        if(attacker.health <= 0) {
+            this.state.gameOver();
+        }
+
+    }, this);
+
+    attackTween.start();
 };
