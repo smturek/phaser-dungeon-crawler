@@ -23,7 +23,7 @@ DunCrawl.Board = function(state, data) {
 
             tile.inputEnabled = true;
             tile.events.onInputDown.add(function(tile) {
-                tile.alpha = 0.5;
+                this.clearFogOfWar(tile, true);
             }, this);
 
             this.state.backgroundTiles.add(tile);
@@ -180,6 +180,8 @@ DunCrawl.Board.prototype.initExit = function() {
         type: 'key'
     });
     this.mapElements.add(key);
+
+    this.clearFogOfWar(start, true);
 };
 
 DunCrawl.Board.prototype.initEnemies= function() {
@@ -236,4 +238,38 @@ DunCrawl.Board.prototype.initFogofWar = function() {
     }
 
     this.fogOfWar.setAll('alpha', 0.7);
+};
+
+DunCrawl.Board.prototype.clearFogOfWar = function(tile, considerEnemies) {
+    //cells that will be revealed
+    var tiles = this.getSurrounding(tile);
+    tiles.push(tile);
+
+    //consider enemies
+
+
+    var darkTile, i, j;
+    var len = this.fogOfWar.length;
+    var lenMapElements = this.mapElements.length;
+
+    //find fog of war to kill
+    tiles.forEach(function(currentTile) {
+        //get dark cell if any
+        for(i = 0; i < len; i++) {
+            darkTile = this.fogOfWar.children[i];
+
+            //check if it matches
+            if(darkTile.alive && currentTile.row == darkTile.row && currentTile.col == darkTile.col) {
+                //search for map elements and show them
+                for(j = 0; j < lenMapElements; j++) {
+                    if(this.mapElements.children[j].alive && this.mapElements.children[j].row == darkTile.row && this.mapElements.children[j].col == darkTile.col) {
+                        this.mapElements.children[j].visible = true;
+                        break;
+                    }
+                }
+                darkTile.kill();
+                break;
+            }
+        }
+    }, this);
 };
